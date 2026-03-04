@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#5D03A9F4"
+    tools:context=".WelcomeScreen">
+
+    <ImageView
+        android:id="@+id/welcomelogo"
+        android:layout_width="200dp"
+        android:layout_height="200.dp"
+        android:layout_marginTop="60.dp"
+        android:src="@drawable/img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/welcomtitile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8.dp"
+        android:text="WelCome!"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30.sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/welcomelogo"
+        app:layout_constraintStart_toStartOf="@id/welcomelogo"
+        app:layout_constraintTop_toBottomOf="@id/welcomelogo" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/cardradius"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/welcomtitile"
+        app:layout_constraintStart_toStartOf="@id/welcomtitile"
+        app:layout_constraintTop_toBottomOf="@id/welcomtitile"
+
+        >
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:hint="Enter your name"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EdTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/NextBtn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:backgroundTint="#6BBDE2"
+            android:textColor="@color/white"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayout"
+            app:layout_constraintEnd_toEndOf="@id/textInputLayout"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
