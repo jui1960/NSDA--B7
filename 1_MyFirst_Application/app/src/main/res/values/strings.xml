@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">1_MyFirst_Application</string>
+    <string name="btn_name">Click Me</string>
+    <string name="sc">welcome home screen</string>
+
+
+</resources>

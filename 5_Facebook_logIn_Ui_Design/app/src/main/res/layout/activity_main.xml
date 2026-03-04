@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/picc" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35.dp"
+        android:layout_marginTop="50.dp"
+        android:paddingVertical="20.dp"
+        android:text="Phone or email"
+        android:textColor="#7E7C7C" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35.dp"
+        android:paddingVertical="20.dp"
+        android:text="password"
+        android:textColor="#7E7C7C" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#1878C3"
+        android:text="Log In"
+        android:textColor="@color/white"
+        android:layout_marginVertical="10.dp"
+        android:layout_marginHorizontal="32.dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Forgot Password?"
+        android:layout_marginStart="135.dp"
+        android:textSize="17.sp"
+        android:textColor="#1878C3"
+        android:textStyle="bold"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="--------------------------------- OR -------------------------------"
+        android:layout_marginHorizontal="70.dp"
+        android:textColor="#7E7C7C"
+        android:layout_marginVertical="20.dp"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0E8E13"
+        android:text="Create new Facebook account"
+        android:layout_marginVertical="0.dp"
+        android:layout_marginHorizontal="52.dp"
+        android:textColor="#EDE6E6"/>
+
+
+</LinearLayout>

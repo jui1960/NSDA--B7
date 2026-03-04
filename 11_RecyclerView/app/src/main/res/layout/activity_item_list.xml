@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ItemList">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20.dp"
+        android:backgroundTint="#CFCEC7D0"
+        app:cardCornerRadius="25.dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ProfileCIV"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/picc"
+                app:civ_border_color="#03A9F4"
+                app:civ_border_width="2dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/NameTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:padding="8dp"
+                android:text="Jannati Akter Jui"
+                android:textColor="@color/black"
+                android:textSize="25.sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ProfileCIV"
+                app:layout_constraintTop_toTopOf="@id/ProfileCIV"
+
+                />
+
+            <TextView
+
+                android:id="@+id/descriptionTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:padding="8.sp"
+                android:text="Hey!Today I practice Recycler View "
+                android:textColor="#69000000"
+                android:textSize="17.sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@id/ProfileCIV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/NameTV"
+                app:layout_constraintTop_toBottomOf="@id/NameTV"
+
+
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
