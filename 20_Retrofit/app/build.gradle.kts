@@ -4,14 +4,11 @@ plugins {
 }
 
 android {
-    buildFeatures{
-        viewBinding = true
-    }
-    namespace = "com.example.navbar"
+    namespace = "com.example.retrofit"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.navbar"
+        applicationId = "com.example.retrofit"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
