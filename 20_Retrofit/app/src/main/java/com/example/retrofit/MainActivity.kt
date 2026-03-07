@@ -1,10 +1,8 @@
 package com.example.retrofit
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.retrofit.databinding.ActivityMainBinding
 import retrofit2.Call
@@ -33,11 +31,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadProducts() {
 
-        ApiClient.api.getProducts().enqueue(object : Callback<List<Product>> {
+        ApiClient.api.getProducts().enqueue(object : Callback<List<com.example.retrofit.Product>> {
 
             override fun onResponse(
-                call: Call<List<Product>>,
-                response: Response<List<Product>>
+                call: Call<List<com.example.retrofit.Product>>,
+                response: Response<List<com.example.retrofit.Product>>
             ) {
 
                 if (response.isSuccessful) {
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+            override fun onFailure(call: Call<List<com.example.retrofit.Product>>, t: Throwable) {
 
                 Toast.makeText(
                     this@MainActivity,

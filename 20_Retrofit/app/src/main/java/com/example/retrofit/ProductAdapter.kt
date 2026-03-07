@@ -1,14 +1,13 @@
 package com.example.retrofit
 
-import android.content.ClipData
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.retrofit.databinding.ActivityMainBinding
+
 import com.example.retrofit.databinding.ProductItemBinding
 
-class ProductAdapter(private val list: List<Product>) :
+class ProductAdapter(private val list: List<com.example.retrofit.Product>) :
     RecyclerView.Adapter<ProductAdapter.viewHolder>() {
     inner class viewHolder(val binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root)
 
