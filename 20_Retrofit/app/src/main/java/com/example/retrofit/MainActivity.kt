@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.retrofit.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,46 +21,55 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(
+            2, StaggeredGridLayoutManager.VERTICAL
+        )
         binding.recyclerView.setHasFixedSize(true)
-        loadProducts()
+        loadData()
+
         binding.fab.setOnClickListener {
-            loadProducts()
+            loadData()
         }
+
 
     }
 
-    private fun loadProducts() {
-
+    private fun loadData() {
         ApiClient.api.getProducts().enqueue(object : Callback<List<Product>> {
-
             override fun onResponse(
-                call: Call<List<Product>>,
-                response: Response<List<Product>>
+                call: Call<List<Product>?>, response: Response<List<Product>?>
             ) {
-
                 if (response.isSuccessful) {
-
                     val list = response.body() ?: emptyList()
+                    binding.recyclerView.adapter = ProductAdapter(list) { product ->
+                        val intent = Intent(this@MainActivity, DetailsScreen::class.java)
+                        intent.putExtra("title",product.title)
+                        intent.putExtra("description",product.description)
+                        intent.putExtra("price",product.price)
+                        intent.putExtra("rating",product.rating.rate.toString())
+                        intent.putExtra("image",product.image)
+                        intent.putExtra("category",product.category)
+                        startActivity(intent)
 
-                    binding.recyclerView.adapter = ProductAdapter(list)
-
+                    }
                 }
 
             }
 
-            override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-
+            override fun onFailure(
+                call: Call<List<Product>?>, t: Throwable
+            ) {
                 Toast.makeText(
                     this@MainActivity,
-                    t.message,
-                    Toast.LENGTH_SHORT
+                    "Error:${t.message}", Toast.LENGTH_SHORT
                 ).show()
-
             }
+
 
         })
 
     }
+
+
 }
+

@@ -8,7 +8,10 @@ import com.bumptech.glide.Glide
 import com.example.retrofit.databinding.ActivityMainBinding
 import com.example.retrofit.databinding.ProductItemBinding
 
-class ProductAdapter(private val list: List<Product>) :
+class ProductAdapter(
+    private val list: List<Product>,
+    private val onItem: (Product) -> Unit
+) :
     RecyclerView.Adapter<ProductAdapter.viewHolder>() {
     inner class viewHolder(val binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -27,6 +30,16 @@ class ProductAdapter(private val list: List<Product>) :
         val product = list[position]
         holder.binding.productTitle.text = product.title
         holder.binding.productPrice.text = "$" + product.price
+        holder.binding.productDescription.text = product.description
+        holder.binding.productCategory.text = product.category
+
+        holder.binding.tvRatingRate.text = product.rating.rate.toString()
+        holder.binding.tvRatingCount.text = "(${product.rating.count})"
+
+
+        holder.binding.root.setOnClickListener {
+            onItem(product)
+        }
 
         Glide.with(holder.itemView.context)
             .load(product.image)

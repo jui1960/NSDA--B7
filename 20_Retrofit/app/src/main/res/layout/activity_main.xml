@@ -26,12 +26,12 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:clipToPadding="false"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="12dp"
         android:paddingBottom="80dp"
-        tools:listitem="@layout/product_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/product_item"
         app:layout_constraintTop_toBottomOf="@id/tvHomeTitle" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/img_1"
         app:backgroundTint="#6200EE"
         app:tint="@color/white"
         app:elevation="6dp"
