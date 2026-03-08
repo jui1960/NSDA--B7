@@ -21,11 +21,6 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         binding.getWeatherBtn.setOnClickListener {
 
@@ -47,8 +42,18 @@ class MainActivity : AppCompatActivity() {
                         val weatherModel = response.body()
 
                         binding.tempText.text = "Temp : ${weatherModel?.main?.temp} C"
-                        binding.humidityText.text = "Humidity : ${weatherModel?.main?.humidity} %"
-                    }
+                        binding.humidityText.text = "${weatherModel?.main?.humidity} %"
+
+                        binding.windText.text = "${weatherModel?.wind?.speed} km/h"
+
+                        val cloudiness = weatherModel?.cloud?.all ?: 0
+                        binding.precipitationText.text = "$cloudiness%"
+
+
+                        if (weatherModel?.weather?.isNotEmpty() == true) {
+                            val status = weatherModel.weather[0].description
+                            binding.weatherStatus.text = status.replaceFirstChar { it.uppercase() }
+                        }                    }
 
                 }
 
