@@ -1,6 +1,8 @@
 package com.example.firebaseauth
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,7 +22,12 @@ class HomeScreen : AppCompatActivity() {
         setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
 
-        binding.lo
+        binding.logoutBtn.setOnClickListener {
+            auth.signOut()
+            Toast.makeText(this, "Logout Sucessful", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, LogInScreen::class.java))
+            finish()
+        }
 
 
     }

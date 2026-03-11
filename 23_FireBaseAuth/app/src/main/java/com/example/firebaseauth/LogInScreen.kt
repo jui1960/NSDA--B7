@@ -25,20 +25,40 @@ class LogInScreen : AppCompatActivity() {
 
         binding.goSignup.setOnClickListener {
             startActivity(Intent(this, SignUpScreen::class.java))
-            Toast.makeText(this, "Sign Up", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Navigate Sign Up page", Toast.LENGTH_SHORT).show()
         }
         binding.loginBtn.setOnClickListener {
 
-            val email = binding.email.text.toString()
-            val password = binding.password.text.toString()
+            val email = binding.email.text.toString().trim()
+            val password = binding.password.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             startActivity(Intent(this, HomeScreen::class.java))
+                            finish()
+                        } else {
+                            val exception = task.exception
+                            if (exception is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(this, "Invalid Password", Toast.LENGTH_SHORT).show()
+                            } else if (exception is com.google.firebase.auth.FirebaseAuthInvalidUserException) {
+                                Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Error: ${exception?.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
                         }
+
                     }
+            } else {
+                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+
             }
 
         }
