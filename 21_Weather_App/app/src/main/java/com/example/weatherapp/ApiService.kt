@@ -1,6 +1,7 @@
 package com.example.weatherapp
 
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,6 +12,8 @@ interface ApiService {
         @Query("appId") appKey: String,
         @Query("units") units: String
     ): Call<WeatherModel>
+
+
 
 
 }
