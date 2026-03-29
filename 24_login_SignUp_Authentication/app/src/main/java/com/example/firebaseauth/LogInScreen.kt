@@ -1,20 +1,69 @@
 package com.example.firebaseauth
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.firebaseauth.databinding.ActivityLogInScreenBinding
+import com.example.firebaseauth.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class LogInScreen : AppCompatActivity() {
+    private lateinit var binding: ActivityLogInScreenBinding
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_log_in_screen)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityLogInScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        auth = FirebaseAuth.getInstance()
+
+        binding.goSignup.setOnClickListener {
+            startActivity(Intent(this, SignUpScreen::class.java))
+            Toast.makeText(this, "Navigate Sign Up page", Toast.LENGTH_SHORT).show()
+
+        }
+        binding.loginBtn.setOnClickListener {
+            val email = binding.email.text.toString().trim()
+            val password = binding.password.text.toString().trim()
+
+
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
+                        } else {
+                            val ex = task.exception
+                            if (ex is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(this, "Invalid Password", Toast.LENGTH_SHORT).show()
+                            } else if (ex is com.google.firebase.auth.FirebaseAuthInvalidUserException) {
+                                Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Error: ${ex?.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
+                    }
+
+            } else {
+                Toast.makeText(this, "Please enter your email and password", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+
+
+            }
         }
     }
 }
