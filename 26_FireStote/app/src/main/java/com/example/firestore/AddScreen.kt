@@ -34,7 +34,7 @@ class AddScreen : AppCompatActivity() {
             }
 
             val friend = hashMapOf(
-                "name" to name, email to email
+                "name" to name, "email" to email
             )
 
             db.collection("friends").add(friend).addOnSuccessListener {
