@@ -22,6 +22,19 @@ class AddScreen : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
 
+        val id = intent.getStringExtra("id")
+        val name = intent.getStringExtra("name")
+        val email = intent.getStringExtra("email")
+
+        if (id != null) {
+            binding.etName.setText(name)
+            binding.etEmail.setText(email)
+            binding.btnSave.text = "Update"
+        } else {
+            binding.btnSave.text = "Save"
+        }
+
+
 
 
         binding.btnSave.setOnClickListener {
@@ -33,16 +46,30 @@ class AddScreen : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val friend = hashMapOf(
-                "name" to name, "email" to email
-            )
+            if (id != null) {
+                db.collection("friends")
+                    .document(id)
+                    .update("name", name, "email", email)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Eroor: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
 
-            db.collection("friends").add(friend).addOnSuccessListener {
-                Toast.makeText(this, "Friend Added", Toast.LENGTH_SHORT).show()
-                finish()
+                val friend = hashMapOf(
+                    "name" to name, "email" to email
+                )
 
-            }.addOnFailureListener {
-                Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                db.collection("friends").add(friend).addOnSuccessListener {
+                    Toast.makeText(this, "Friend Added", Toast.LENGTH_SHORT).show()
+                    finish()
+
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                }
             }
 
 

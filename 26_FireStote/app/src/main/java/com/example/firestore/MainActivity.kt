@@ -2,6 +2,7 @@ package com.example.firestore
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,7 +10,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.firestore.databinding.ActivityMainBinding
 import com.google.firebase.firestore.FirebaseFirestore
-
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: FirebaseFirestore
@@ -29,9 +29,28 @@ class MainActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
 
-        adapter = FriendAdapter(friendlist) { friend ->
-            deleteFriend(friend.id)
-        }
+
+        adapter = FriendAdapter(
+            friendlist,
+            onDelete = { friend ->
+                db.collection("friends")
+                    .document(friend.id)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Friend Deleted", Toast.LENGTH_SHORT).show()
+
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+            },
+            onEdit = { friend ->
+                val intent = Intent(this, AddScreen::class.java)
+                intent.putExtra("id", friend.id)
+                intent.putExtra("name", friend.name)
+                intent.putExtra("email", friend.email)
+                startActivity(intent)
+            })
 
         binding.btnAddFriend.setOnClickListener {
             startActivity(Intent(this, AddScreen::class.java))
@@ -39,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerViewFriends.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewFriends.adapter = adapter
+
 
         loadFriend()
     }
@@ -58,12 +78,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun deleteFriend(id: String) {
-
-        db.collection("friends")
-            .document(id)
-            .delete()
-    }
 
 }

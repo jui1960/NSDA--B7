@@ -7,7 +7,8 @@ import com.example.firestore.databinding.ItemBinding
 
 class FriendAdapter(
     private val list: ArrayList<Friend>,
-    private val onDelete: (Friend) -> Unit
+    private val onDelete: (Friend) -> Unit,
+    private val onEdit: (Friend) -> Unit
 ) :
     RecyclerView.Adapter<friendViewHolder>() {
     override fun onCreateViewHolder(
@@ -29,6 +30,10 @@ class FriendAdapter(
         holder.binding.btnDelete.setOnClickListener {
             onDelete(data)
         }
+        holder.binding.btnEdit.setOnClickListener {
+            onEdit(data)
+        }
+
     }
 
     override fun getItemCount(): Int {
