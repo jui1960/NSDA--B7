@@ -24,15 +24,14 @@ class DetailsScreen : AppCompatActivity() {
 
         val title = intent.getStringExtra("title")
         val dec = intent.getStringExtra("description")
-        val price = intent.getStringExtra("price")
-        val rating = intent.getStringExtra("rating")
         val image = intent.getStringExtra("image")
         val category = intent.getStringExtra("category")
+        val price = intent.getDoubleExtra("price", 0.0)
 
 
         binding.apply {
             detailProductTitle.text = title
-            detailProductPrice.text = "$$price"
+            binding.detailProductPrice.text = "$$price"
             detailProductDescription.text = dec
             detailProductCategory.text = category
 

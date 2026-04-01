@@ -16,7 +16,8 @@ class ProductAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ProductItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ProductItemBinding.inflate(LayoutInflater.from(parent.context),
+                parent, false)
         return ViewHolder(binding)
     }
 
@@ -27,18 +28,21 @@ class ProductAdapter(
         holder.binding.productTitle.text = product.title
         holder.binding.productPrice.text = "$${product.price}"
         holder.binding.productDescription.text = product.description
-        holder.binding.productCategory.text = product.category
-
-        holder.binding.tvRatingRate.text = product.rating.rate.toString()
-        holder.binding.tvRatingCount.text = "(${product.rating.count})"
 
         holder.binding.root.setOnClickListener {
             onItem(product)
         }
 
+
+
+        val imageUrl = product.images.getOrNull(0) ?: ""
         Glide.with(holder.itemView.context)
-            .load(product.image)
+            .load(product.images[0])
+            .placeholder(android.R.drawable.progress_indeterminate_horizontal)
+            .error(android.R.drawable.stat_notify_error)
             .into(holder.binding.productImage)
+
+
     }
 
     override fun getItemCount(): Int {

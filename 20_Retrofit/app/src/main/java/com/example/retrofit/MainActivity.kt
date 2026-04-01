@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.retrofit.databinding.ActivityMainBinding
 import retrofit2.Call
@@ -14,6 +16,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: ProductAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
-        binding.recyclerView.setHasFixedSize(true)
-
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
         loadData()
 
         binding.fab.setOnClickListener {
@@ -52,11 +51,11 @@ class MainActivity : AppCompatActivity() {
 
                         intent.putExtra("title", product.title)
                         intent.putExtra("description", product.description)
-                        intent.putExtra("price", product.price)
-                        intent.putExtra("rating", product.rating.rate.toString())
-                        intent.putExtra("image", product.image)
-                        intent.putExtra("category", product.category)
-
+                        intent.putExtra("price", product.price) // Double
+                       val imageUrl = if (product.images.isNotEmpty()) {
+                            product.images[0]
+                        } else ""
+                        intent.putExtra("image", imageUrl)
                         startActivity(intent)
                     }
                 }
