@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class Maps : AppCompatActivity(), OnMapReadyCallback {
@@ -18,12 +19,12 @@ class Maps : AppCompatActivity(), OnMapReadyCallback {
     private var lat = 0.0
     private var long = 0.0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -39,13 +40,9 @@ class Maps : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        val location = com.google.android.gms.maps.model.LatLng(lat, long)
-
-        mMap.addMarker(MarkerOptions().position(location).title("Shared Location"))
-
+        val location = LatLng(lat, long)
+        mMap.addMarker(MarkerOptions().position(location).title("Current Location"))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
-
-
+        mMap.uiSettings.isZoomControlsEnabled = true
     }
 }

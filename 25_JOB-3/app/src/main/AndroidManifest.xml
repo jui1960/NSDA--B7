@@ -16,6 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Job3">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDhS8IuCo9D8fpfhlxCGyieVeymvPYeJu8" />
+
         <activity
             android:name=".SignUpScreen"
             android:exported="false" />
@@ -32,9 +37,6 @@
             android:name=".Maps"
             android:exported="false" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDhS8IuCo9D8fpfhlxCGyieVeymvPYeJu8" />
 
         <activity
             android:name=".MainActivity"
