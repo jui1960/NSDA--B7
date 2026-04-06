@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "187767624156",
+    "project_id": "job3location-ee9ea",
+    "storage_bucket": "job3location-ee9ea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187767624156:android:b0a885130914a7dc8f3f19",
+        "android_client_info": {
+          "package_name": "com.example.job3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATyMXQ-PHm9HOvraUVhoNGG8QstKKOr0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
