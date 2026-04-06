@@ -6,14 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.job3.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.MarkerOptions
 
 class Maps : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMapsBinding
-    private lateinit var mMap : GoogleMap
-    private var Lat = 0.0
-    private var Long = 0.0
+    private lateinit var mMap: GoogleMap
+    private var lat = 0.0
+    private var long = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,12 +30,22 @@ class Maps : AppCompatActivity(), OnMapReadyCallback {
             insets
         }
 
+        lat = intent.getDoubleExtra("latitude", 0.0)
+        long = intent.getDoubleExtra("longitude", 0.0)
 
-
-
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
     }
 
-    override fun onMapReady(p0: GoogleMap) {
-        TODO("Not yet implemented")
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        val location = com.google.android.gms.maps.model.LatLng(lat, long)
+
+        mMap.addMarker(MarkerOptions().position(location).title("Shared Location"))
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+
+
     }
 }

@@ -14,9 +14,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val db = FirebaseFirestore.getInstance()
     private var currentLat = 0.0
     private var currentLong = 0.0
+    private val db = FirebaseFirestore.getInstance()
+
     private val fusedLocationClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
 
@@ -36,61 +37,52 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnShowMap.setOnClickListener {
             val intent = Intent(this, Maps::class.java)
-            intent.putExtra("latitude",currentLat)
-            intent.putExtra("longitude",currentLong)
+            intent.putExtra("latitude", currentLat)
+            intent.putExtra("longitude", currentLong)
             startActivity(intent)
 
         }
 
     }
 
-    fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                100
-            )
-            return
-
-        }
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                currentLat = location.latitude
-                currentLong = location.longitude
-                Toast.makeText(
-                    this, "Lat: $currentLat,Lng: $currentLong", Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
-
-
-            }
-        }
-    }
-
-    fun saveLocation() {
+    private fun saveLocation() {
         val data = hashMapOf(
             "latitude" to currentLat,
             "longitude" to currentLong
         )
-        db.collection("location")
+        db.collection("locations")
             .add(data)
             .addOnSuccessListener {
                 Toast.makeText(this, "Location saved", Toast.LENGTH_SHORT).show()
-
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Location not saved", Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(this, "Failed to save location", Toast.LENGTH_SHORT).show()
             }
     }
 
+    fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100)
+            return
+        }
 
+        fusedLocationClient.lastLocation.addOnSuccessListener {location ->
+            if(location!=null){
+                currentLat = location.latitude
+                currentLong = location.longitude
+                Toast.makeText(this, "Lat: $currentLat, Lng: $currentLong", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
 }
+
+
+
 
 
 
