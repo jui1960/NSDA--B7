@@ -80,7 +80,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun getLocation() {
+        //user location er permission dice ki na check
         if (ActivityCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
