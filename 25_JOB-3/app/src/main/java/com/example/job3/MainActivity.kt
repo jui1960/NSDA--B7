@@ -12,15 +12,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.job3.databinding.ActivityMainBinding
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var currentLat = 0.0
     private var currentLong = 0.0
+    private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
+
     private val fusedLocationClient by lazy {
+
+        //phone er GPS use kore location find kore
         LocationServices.getFusedLocationProviderClient(this)
     }
 
@@ -29,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        getLocation()
 
         binding.btnGetLocation.setOnClickListener {
             getLocation()
@@ -40,6 +47,12 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Please get location first", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.btnLogout.setOnClickListener {
+            auth.signOut()
+            startActivity(Intent(this, SignInScreen::class.java))
+            finish()
         }
 
         binding.btnShowMap.setOnClickListener {
@@ -54,13 +67,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 100 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getLocation()
+        } else {
+            Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100)
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100
+            )
             return
         }
+        val locationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager //location service ke amader code er sathe connect
 
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, "Please enable GPS/Location", Toast.LENGTH_LONG).show()
             return
@@ -72,7 +104,8 @@ class MainActivity : AppCompatActivity() {
                 currentLong = location.longitude
                 Toast.makeText(this, "Location detected", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Could not find location. Try again.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Could not find location. Try again.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }.addOnFailureListener {
             Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
@@ -81,16 +114,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveLocation() {
         val data = hashMapOf(
-            "latitude" to currentLat,
-            "longitude" to currentLong
+            "latitude" to currentLat, "longitude" to currentLong
         )
-        db.collection("locations")
-            .add(data)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Saved to Firestore", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show()
-            }
+        db.collection("locations").add(data).addOnSuccessListener {
+            Toast.makeText(this, "Saved to Firestore", Toast.LENGTH_SHORT).show()
+
+        }.addOnFailureListener {
+            Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show()
+        }
+
     }
+
+
 }
