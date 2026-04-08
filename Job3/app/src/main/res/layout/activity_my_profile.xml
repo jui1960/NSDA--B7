@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +8,7 @@
     android:background="#F8F9FF"
     tools:context=".View.MyProfile">
 
+    <!-- Header -->
     <View
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
@@ -33,11 +35,12 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/ivBack"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivBack"
+        app:layout_constraintBottom_toBottomOf="@id/ivBack"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivBack" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Profile Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cvProfile"
         android:layout_width="match_parent"
@@ -67,11 +70,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="jui.dev@email.com"
-                android:textColor="#666666"
+                android:textColor="#666"
                 android:textSize="14sp" />
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
+    <!-- Name -->
     <TextView
         android:id="@+id/tvAccountNameLabel"
         android:layout_width="wrap_content"
@@ -79,10 +84,10 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="24dp"
         android:text="Account Name"
-        android:textColor="#333333"
+        android:textColor="#333"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvProfile" />
+        app:layout_constraintTop_toBottomOf="@id/cvProfile"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/etUpdateUsername"
@@ -94,9 +99,9 @@
         android:hint="Enter your name"
         android:paddingHorizontal="20dp"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvAccountNameLabel"
-        app:layout_constraintTop_toBottomOf="@+id/tvAccountNameLabel" />
+        app:layout_constraintTop_toBottomOf="@id/tvAccountNameLabel"
+        app:layout_constraintStart_toStartOf="@id/tvAccountNameLabel"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnUpdateName"
@@ -109,51 +114,78 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/etUpdateUsername"
-        app:layout_constraintTop_toBottomOf="@+id/etUpdateUsername" />
+        app:layout_constraintTop_toBottomOf="@id/etUpdateUsername"
+        app:layout_constraintEnd_toEndOf="@id/etUpdateUsername" />
 
+    <!-- Get Location -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rowShareLocation"
+        android:id="@+id/btnGetLocation"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/row_clickable_bg"
         android:paddingHorizontal="12dp"
-        app:layout_constraintEnd_toEndOf="@+id/etUpdateUsername"
-        app:layout_constraintStart_toStartOf="@+id/etUpdateUsername"
-        app:layout_constraintTop_toBottomOf="@+id/btnUpdateName">
+        app:layout_constraintTop_toBottomOf="@id/btnUpdateName"
+        app:layout_constraintStart_toStartOf="@id/etUpdateUsername"
+        app:layout_constraintEnd_toEndOf="@id/etUpdateUsername">
 
         <ImageView
-            android:id="@+id/iconLoc"
+            android:id="@+id/iconGetLocation"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/img"
+            android:src="@drawable/ic_location"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tvShareLoc"
+
+            android:id="@+id/getLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Share Live Location"
-            android:textColor="#333333"
+            android:text="Get Current Location"
+            android:textColor="#333"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iconLoc"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iconGetLocation"
             app:layout_constraintTop_toTopOf="parent"
-            app:thumbTint="@color/purple_500" />
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Save Location -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnSaveLocation"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/row_clickable_bg"
+        android:paddingHorizontal="12dp"
+        app:layout_constraintTop_toBottomOf="@id/btnGetLocation"
+        app:layout_constraintStart_toStartOf="@id/btnGetLocation"
+        app:layout_constraintEnd_toEndOf="@id/btnGetLocation">
+
+        <ImageView
+            android:id="@+id/iconSave"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_save"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Save Location"
+            android:textColor="#333"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/iconSave"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- View Map -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnViewMap"
         android:layout_width="0dp"
@@ -161,30 +193,29 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/row_clickable_bg"
         android:paddingHorizontal="12dp"
-        app:layout_constraintEnd_toEndOf="@+id/rowShareLocation"
-        app:layout_constraintStart_toStartOf="@+id/rowShareLocation"
-        app:layout_constraintTop_toBottomOf="@+id/rowShareLocation">
+        app:layout_constraintTop_toBottomOf="@id/btnSaveLocation"
+        app:layout_constraintStart_toStartOf="@id/btnSaveLocation"
+        app:layout_constraintEnd_toEndOf="@id/btnSaveLocation">
 
         <ImageView
             android:id="@+id/iconMap"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_map"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:text="View on Map"
-            android:textColor="#333333"
+            android:textColor="#333"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iconMap"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

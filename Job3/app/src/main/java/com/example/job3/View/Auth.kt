@@ -39,7 +39,9 @@ class Auth : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            startActivity(Intent(this, FriendList::class.java))
+                            val intent = Intent(this, MyProfile::class.java)
+                            intent.putExtra("email", email)
+                            startActivity(intent)
                             finish()
                         } else {
                             val exception = task.exception
