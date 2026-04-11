@@ -15,12 +15,13 @@ class UserRepository {
             .addOnSuccessListener { task ->
                 val userId = task.user?.uid ?: return@addOnSuccessListener
                 val userName = email.substringBefore("@")
-                val user = AppUser(userId, userName, email)
+                val user = AppUser(userId, email, userName)
                 db.collection("users").document(userId).set(user)
                     .addOnSuccessListener {
                         onComplete(true, null)
                     }
                     .addOnFailureListener { e ->
+
                         onComplete(false, e.message)
                     }
 

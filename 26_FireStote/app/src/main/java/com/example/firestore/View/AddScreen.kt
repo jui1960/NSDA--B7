@@ -1,5 +1,6 @@
 package com.example.firestore.View
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
@@ -27,7 +28,7 @@ class AddScreen : AppCompatActivity() {
         }
     }
 
-    // কোন বাটনটি বর্তমানে লোডিং মোডে আছে তা ট্র্যাক করার জন্য
+
     private var activeLoadingButton: MaterialButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,14 +42,14 @@ class AddScreen : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        // ১. লোডিং স্টেট অবজার্ভ করা
+
         viewModel.isLoading.observe(this) { isLoading ->
             if (isLoading) {
-                // একটি বাটন লোডিং হলে দুটোই ডিসেবল করে দিচ্ছি যাতে ইউজার ডাবল ক্লিক না করে
+
                 binding.btnLogin.isEnabled = false
                 binding.btnRegister.isEnabled = false
             } else {
-                // লোডিং শেষ হলে এক্টিভ বাটনটিকে স্টপ করা
+
                 activeLoadingButton?.let {
                     val originalText = if (it == binding.btnLogin) "Login" else "Register"
                     stopLoading(it, originalText)
@@ -59,27 +60,27 @@ class AddScreen : AppCompatActivity() {
             }
         }
 
-        // ২. রেজাল্ট অবজার্ভ করা (Login)
+
         viewModel.loginResult.observe(this) { (success, message) ->
             if (success) {
-                Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Login Successful! ", Toast.LENGTH_SHORT).show()
+                navigateToFriendList()
             } else {
-                Toast.makeText(this, "Login Failed: $message", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Login Failed ", Toast.LENGTH_LONG).show()
             }
         }
 
-        // ৩. রেজাল্ট অবজার্ভ করা (Registration)
+
         viewModel.registrationResult.observe(this) { (success, message) ->
             if (success) {
                 Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Registration Failed: $message", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Registration Failed ", Toast.LENGTH_LONG).show()
             }
         }
     }
 
     private fun setupClickListeners() {
-        // লগইন বাটন ক্লিক
         binding.btnLogin.setOnClickListener {
             val email = binding.email.text.toString().trim()
             val password = binding.password.text.toString().trim()
@@ -91,7 +92,6 @@ class AddScreen : AppCompatActivity() {
             }
         }
 
-        // রেজিস্ট্রেশন বাটন ক্লিক
         binding.btnRegister.setOnClickListener {
             val email = binding.email.text.toString().trim()
             val password = binding.password.text.toString().trim()
@@ -105,13 +105,33 @@ class AddScreen : AppCompatActivity() {
     }
 
     private fun validateInputs(email: String, pass: String): Boolean {
-        return if (email.isEmpty() || pass.isEmpty()) {
+        if (email.isEmpty() || pass.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             false
-        } else true
+        }
+        if (pass.isEmpty()) {
+            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (pass.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        }
+
+        val passwordPattern = "^(?=.*[0-9])(?=.*[a-z]).{6,}$".toRegex()
+        if (!pass.matches(passwordPattern)) {
+            Toast.makeText(
+                this,
+                "Password must contain at least one letter and one number",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        }
+        return true
     }
 
-    // --- লোডিং হেল্পার ফাংশন ---
 
     private fun startLoading(button: MaterialButton) {
         val spec = CircularProgressIndicatorSpec(this, null).apply {
@@ -123,7 +143,7 @@ class AddScreen : AppCompatActivity() {
         val progressDrawable = IndeterminateDrawable.createCircularDrawable(this, spec)
 
         button.icon = progressDrawable
-        button.text = "" // টেক্সট সরিয়ে ফেলা হলো যাতে শুধু স্পিনার দেখা যায়
+        button.text = ""
         button.isEnabled = false
     }
 
@@ -131,5 +151,11 @@ class AddScreen : AppCompatActivity() {
         button.icon = null
         button.text = originalText
         button.isEnabled = true
+    }
+
+    private fun navigateToFriendList() {
+        val intent = Intent(this, FriendList::class.java)
+        startActivity(intent)
+        finish()
     }
 }
