@@ -10,5 +10,6 @@ data class AppUser(
 
 )
 {
-    constructor():this("","","",0.0,0.0)
+    constructor():this("","","",
+        0.0,0.0)
 }

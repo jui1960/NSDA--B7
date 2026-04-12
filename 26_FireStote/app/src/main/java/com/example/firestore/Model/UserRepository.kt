@@ -16,7 +16,8 @@ class UserRepository {
                 val userId = task.user?.uid ?: return@addOnSuccessListener
                 val userName = email.substringBefore("@")
                 val user = AppUser(userId, email, userName)
-                db.collection("users").document(userId).set(user)
+                db.collection("users")
+                    .document(userId).set(user)
                     .addOnSuccessListener {
                         onComplete(true, null)
                     }
@@ -41,6 +42,21 @@ class UserRepository {
             .addOnFailureListener { e ->
                 onComplete(false, e.message)
             }
+    }
+
+
+    fun getAllUser(onComplete: (List<AppUser>) -> Unit) {
+        db.collection("users").get()
+            .addOnSuccessListener { snapshots ->
+                val list = snapshots.documents.mapNotNull { doc ->
+                    doc.toObject(AppUser::class.java)
+                }
+                onComplete(list)
+            }
+            .addOnFailureListener {
+                onComplete(emptyList())
+            }
+
     }
 
     fun currentUserId(): String? = auth.currentUser?.uid
