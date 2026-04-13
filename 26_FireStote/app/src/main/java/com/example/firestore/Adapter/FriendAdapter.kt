@@ -1,30 +1,53 @@
 package com.example.firestore.Adapter
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.firestore.databinding.ItemBinding
+import com.example.firestore.Model.AppUser
+import com.example.firestore.databinding.ItemUserBinding
 
-class FriendAdapter() : RecyclerView.Adapter<FriendAdapter.userVidewModel>() {
-    inner class userVidewModel(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+class FriendAdapter(private val onItemClick: (AppUser) -> Unit) :
+    ListAdapter<AppUser, FriendAdapter.UserViewModel>(DIFF_CALLBACK) {
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AppUser>() {
+            override fun areItemsTheSame(
+                oldItem: AppUser,
+                newItem: AppUser
+            ) = oldItem.userid == newItem.userid
+
+            override fun areContentsTheSame(
+                oldItem: AppUser,
+                newItem: AppUser
+            ) = oldItem == newItem
+        }
+    }
+
 
     override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): userVidewModel {
-        val binding = ItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-        return userVidewModel(binding)
+        parent: ViewGroup,
+        viewType: Int
+    ): UserViewModel {
+        val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return UserViewModel(binding)
     }
 
     override fun onBindViewHolder(
-        holder: userVidewModel, position: Int
+        holder: UserViewModel,
+        position: Int
     ) {
-        TODO("Not yet implemented")
+        val user = getItem(position)
+        holder.binding.tvUsername.text = user.userName
+        holder.binding.tvEmail.text = user.email
+        holder.binding.tvLat.text = "Latitude: ${user.latitude ?: "N/A"}"
+        holder.binding.tvLng.text = "Lngitude: ${user.longitude ?: "N/a"}"
+        holder.itemView.setOnClickListener {
+            onItemClick(user)
+        }
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
-
-
+    inner class UserViewModel(val binding: ItemUserBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }
