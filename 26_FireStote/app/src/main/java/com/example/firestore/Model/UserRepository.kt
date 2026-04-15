@@ -1,5 +1,11 @@
 package com.example.firestore.Model
 
+import android.Manifest
+import android.content.Context
+
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -59,6 +65,55 @@ class UserRepository {
 
     }
 
-    fun currentUserId(): String? = auth.currentUser?.uid
 
+    fun getCurrentUserId(): String? = auth.currentUser?.uid
+    fun getCurrentUserEmail(): String? = auth.currentUser?.email
+    fun getUserById(userId: String, callback: (AppUser?) -> Unit) {
+        db.collection("users").document(userId).get()
+            .addOnSuccessListener {
+                val user = it.toObject(AppUser::class.java)
+                callback(user)
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
+
+
+    fun UpdateLocation(userId: String, lat: Double, lng: Double, onComplete: (Boolean) -> Unit) {
+        db.collection("users").document(userId).update(
+            mapOf(
+                "latitude" to lat,
+                "longitude" to lng
+            )
+        ).addOnSuccessListener {
+            onComplete.invoke(true)
+        }.addOnFailureListener {
+            onComplete.invoke(false)
+        }
+
+    }
+
+    fun updateLocationAuto(context: Context, onComplete: (Boolean) -> Unit) {
+        val fused = LocationServices.getFusedLocationProviderClient(context)
+        val userId = getCurrentUserId() ?: return
+
+        if (ActivityCompat.checkSelfPermission(
+                context, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            onComplete(false)
+            return
+        }
+        fused.lastLocation.addOnSuccessListener { loc ->
+            if (loc != null) {
+                UpdateLocation(userId, loc.latitude, loc.longitude, onComplete)
+                onComplete(true)
+            } else {
+                onComplete(false)
+            }
+        }
+
+
+    }
 }
