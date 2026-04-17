@@ -1,8 +1,10 @@
 package com.example.firestore.View
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -34,7 +36,8 @@ class FriendList : AppCompatActivity() {
         setContentView(binding.root)
 
         val adapter = FriendAdapter { selectedUser ->
-            Toast.makeText(this@FriendList, selectedUser.email, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@FriendList,
+                selectedUser.email, Toast.LENGTH_SHORT).show()
 
         }
         binding.userRecycler.layoutManager = LinearLayoutManager(this)
@@ -51,9 +54,30 @@ class FriendList : AppCompatActivity() {
         }
         loadCurrentUser()
         checkLocationPermission()
+        binding.fabMain.setOnClickListener {
+            if (isMenuOpen) closeMenu() else openMenu()
+        }
+    }
+
+    private fun openMenu() {
+        binding.fabProfile.visibility = View.VISIBLE
+        binding.fabLogout.visibility = View.VISIBLE
+        binding.fabShowMap.visibility = View.VISIBLE
+        isMenuOpen = true
+
+    }
+
+    private fun closeMenu() {
+        binding.fabProfile.visibility = View.GONE
+        binding.fabLogout.visibility = View.GONE
+        binding.fabShowMap.visibility = View.GONE
+        isMenuOpen = false
+
+
     }
 
 
+    @SuppressLint("SetTextI18n")
     fun loadCurrentUser() {
         val uid = repo.getCurrentUserId() ?: return
         repo.getUserById(uid) { user ->
@@ -90,6 +114,23 @@ class FriendList : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(
+            requestCode,
+            permissions, grantResults
+        )
+
+        if (requestCode == 100 && grantResults.isNotEmpty()
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            UpdateLocationAutomatically()
+        }
+    }
+
     private fun UpdateLocationAutomatically() {
         repo.updateLocationAuto(this) { success ->
             if (success) {
@@ -99,6 +140,11 @@ class FriendList : AppCompatActivity() {
                     Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        closeMenu()
     }
 
 

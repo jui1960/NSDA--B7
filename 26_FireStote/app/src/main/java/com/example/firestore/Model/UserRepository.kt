@@ -113,7 +113,8 @@ class UserRepository {
                 onComplete(false)
             }
         }
-
-
+        fun logOut() {
+            auth.signOut()
+        }
     }
 }
