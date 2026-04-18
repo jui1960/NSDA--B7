@@ -107,14 +107,17 @@ class UserRepository {
         }
         fused.lastLocation.addOnSuccessListener { loc ->
             if (loc != null) {
-                UpdateLocation(userId, loc.latitude, loc.longitude, onComplete)
-                onComplete(true)
+                UpdateLocation(userId, loc.latitude, loc.longitude){ success ->
+                    onComplete(success)
+
+                }
             } else {
                 onComplete(false)
             }
         }
-        fun logOut() {
-            auth.signOut()
-        }
+
+    }
+    fun logOut() {
+        auth.signOut()
     }
 }

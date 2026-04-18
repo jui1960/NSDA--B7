@@ -16,4 +16,8 @@ class FriendViewModel(private val repo: UserRepository) :
             _userList.postValue(list)
         }
     }
+    fun logOut() {
+        repo.logOut()
+    }
+
 }

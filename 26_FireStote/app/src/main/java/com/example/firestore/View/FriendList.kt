@@ -2,6 +2,7 @@ package com.example.firestore.View
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -21,6 +22,7 @@ import com.example.firestore.databinding.ActivityFriendListBinding
 class FriendList : AppCompatActivity() {
     private lateinit var binding: ActivityFriendListBinding
     private val repo = UserRepository()
+    private var isMenuOpen = false
     private val viewModel by viewModels<FriendViewModel> {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -36,8 +38,9 @@ class FriendList : AppCompatActivity() {
         setContentView(binding.root)
 
         val adapter = FriendAdapter { selectedUser ->
-            Toast.makeText(this@FriendList,
-                selectedUser.email, Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MapsActivity::class.java).apply {
+                putExtra("uid", selectedUser.userid)
+            })
 
         }
         binding.userRecycler.layoutManager = LinearLayoutManager(this)
@@ -47,35 +50,52 @@ class FriendList : AppCompatActivity() {
         viewModel.fetchUsers()
 
         viewModel.userList.observe(this) { list ->
-            val currentUserId = repo.getCurrentUserId()
-            val filteredout = list.filter { it.userid != currentUserId }
-            adapter.submitList(filteredout)
+            val currentUid = repo.getCurrentUserId()
+            adapter.submitList(list.filter { it.userid != currentUid })
 
         }
         loadCurrentUser()
         checkLocationPermission()
+
+        binding.layoutMyProfile.setOnClickListener {
+            val uid = repo.getCurrentUserId() ?: return@setOnClickListener
+            startActivity(Intent(this, MapsActivity::class.java).apply {
+                putExtra("uid", uid)
+            })
+        }
         binding.fabMain.setOnClickListener {
             if (isMenuOpen) closeMenu() else openMenu()
         }
+
+        binding.fabProfile.setOnClickListener {
+            val uid = repo.getCurrentUserId() ?: return@setOnClickListener
+            val email = repo.getCurrentUserEmail() ?: ""
+
+            startActivity((Intent(this, MyProfileActivity::class.java)).apply {
+                putExtra("uid", uid)
+                putExtra("email", email)
+
+            })
+            closeMenu()
+        }
+        binding.fabShowMap.setOnClickListener {
+            startActivity(Intent(this, MapsActivity::class.java).apply {
+                putExtra("showAll", true)
+            })
+            closeMenu()
+        }
+
+        binding.fabLogout.setOnClickListener {
+            viewModel.logOut()
+
+            startActivity(Intent(this, AddScreen::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+        }
+
+
+
     }
-
-    private fun openMenu() {
-        binding.fabProfile.visibility = View.VISIBLE
-        binding.fabLogout.visibility = View.VISIBLE
-        binding.fabShowMap.visibility = View.VISIBLE
-        isMenuOpen = true
-
-    }
-
-    private fun closeMenu() {
-        binding.fabProfile.visibility = View.GONE
-        binding.fabLogout.visibility = View.GONE
-        binding.fabShowMap.visibility = View.GONE
-        isMenuOpen = false
-
-
-    }
-
 
     @SuppressLint("SetTextI18n")
     fun loadCurrentUser() {
@@ -84,8 +104,8 @@ class FriendList : AppCompatActivity() {
             user?.let {
                 binding.tvMyProfileName.text = it.userName
                 binding.tvMyProfileEmail.text = it.email
-                binding.tvMyProfileLat.text = it.latitude?.toString() ?: "No Latitude"
-                binding.tvMyProfileLng.text = it.longitude?.toString() ?: "No longitude"
+                binding.tvMyProfileLat.text = "Lat: ${it.latitude ?: 0.0}"
+                binding.tvMyProfileLng.text = "Lng: ${it.longitude ?: 0.0}"
             } ?: run {
                 binding.tvMyProfileName.text = "User not found"
             }
@@ -93,7 +113,6 @@ class FriendList : AppCompatActivity() {
 
 
     }
-
 
     private fun hasLocationPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
@@ -131,19 +150,46 @@ class FriendList : AppCompatActivity() {
         }
     }
 
+
     private fun UpdateLocationAutomatically() {
         repo.updateLocationAuto(this) { success ->
             if (success) {
                 loadCurrentUser()
             } else {
-                Toast.makeText(this, "Location update failed",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this, "Location update failed",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
+
+
+
+
+    private fun openMenu() {
+        binding.fabProfile.visibility = View.VISIBLE
+        binding.fabLogout.visibility = View.VISIBLE
+        binding.fabShowMap.visibility = View.VISIBLE
+        isMenuOpen = true
+
+    }
+
+    private fun closeMenu() {
+        binding.fabProfile.visibility = View.GONE
+        binding.fabLogout.visibility = View.GONE
+        binding.fabShowMap.visibility = View.GONE
+        isMenuOpen = false
+
+
+    }
+
+
     override fun onResume() {
         super.onResume()
+
+        isMenuOpen = false
         closeMenu()
     }
 

@@ -16,6 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FireStore">
         <activity
+            android:name=".View.MyProfileActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCvw3qjqjSr5D3e4QqbLbSTgzv_7EbruCk" />
+
+        <activity
+            android:name=".View.MapsActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.FriendList"
             android:exported="false" />
         <activity
