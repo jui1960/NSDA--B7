@@ -191,6 +191,7 @@ class FriendList : AppCompatActivity() {
 
         isMenuOpen = false
         closeMenu()
+        loadCurrentUser()
     }
 
 

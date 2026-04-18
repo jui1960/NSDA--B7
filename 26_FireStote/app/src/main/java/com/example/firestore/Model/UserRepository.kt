@@ -120,4 +120,11 @@ class UserRepository {
     fun logOut() {
         auth.signOut()
     }
+
+    fun updateUserName(uid: String, newName: String, callback: (Boolean) -> Unit) {
+        db.collection("users").document(uid)
+            .update("userName", newName)
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
+    }
 }

@@ -19,5 +19,10 @@ class FriendViewModel(private val repo: UserRepository) :
     fun logOut() {
         repo.logOut()
     }
+    fun updateProfileName(uid: String, newName: String, onResult: (Boolean) -> Unit) {
+        repo.updateUserName(uid, newName) { success ->
+            onResult(success)
+        }
+    }
 
 }
