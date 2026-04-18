@@ -127,4 +127,14 @@ class UserRepository {
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
+
+
+    fun getUserLocation(uid: String, callback: (Double?, Double?) -> Unit) {
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { doc ->
+                val lat = doc.getDouble("latitude")
+                val lng = doc.getDouble("longitude")
+                callback(lat, lng)
+            }
+    }
 }

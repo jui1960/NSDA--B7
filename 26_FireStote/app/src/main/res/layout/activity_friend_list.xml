@@ -3,126 +3,116 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenLight"
-    android:paddingHorizontal="16dp">
+    android:background="#E8F5E9"
+    android:padding="16dp">
 
-    <!-- My Profile Header -->
     <androidx.cardview.widget.CardView
         android:id="@+id/layoutMyProfile"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="@color/greenPrimary"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="#009688"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-            <!-- Title -->
+            android:padding="20dp">
+
             <TextView
                 android:id="@+id/tvMyProfileTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="My Profile"
-                android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvMyProfileName"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!-- Name -->
-                <TextView
-                    android:id="@+id/tvMyProfileName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="3dp"
-                    android:text="Your Name"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                android:text="Your Name"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="14dp"
+                app:layout_constraintTop_toBottomOf="@id/tvMyProfileTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvMyProfileEmail"
+                app:layout_constraintHorizontal_weight="1" /> <TextView
+            android:id="@+id/tvMyProfileEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="your@email.com"
+            android:textColor="#CCFFFFFF"
+            android:textSize="14sp"
+            android:gravity="end"
+            app:layout_constraintTop_toTopOf="@id/tvMyProfileName"
+            app:layout_constraintStart_toEndOf="@id/tvMyProfileName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1.2" /> <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#33FFFFFF"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tvMyProfileName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Email -->
-                <TextView
-                    android:id="@+id/tvMyProfileEmail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="3dp"
-                    android:text="your@email.com"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvMyProfileLat"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvMyProfileLat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Lat: 0.0"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tvMyProfileLng"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Lng: 0.0"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-        </LinearLayout>
+                android:text="Lat: 0.0"
+                android:textColor="#E0FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvMyProfileLng"
+                app:layout_constraintHorizontal_weight="1" /> <TextView
+            android:id="@+id/tvMyProfileLng"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Lng: 0.0"
+            android:textColor="#E0FFFFFF"
+            android:textSize="13sp"
+            android:gravity="end"
+            app:layout_constraintTop_toTopOf="@id/tvMyProfileLat"
+            app:layout_constraintStart_toEndOf="@id/tvMyProfileLat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1" /> </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 
     <TextView
         android:id="@+id/tvFriendListHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Friend List"
-        android:textColor="@color/greenPrimaryDark"
+        android:textColor="#00695C"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutMyProfile" />
-
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutMyProfile"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:clipToPadding="false"
-        android:paddingBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvFriendListHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_user" />
 
     <LinearLayout
@@ -144,7 +134,7 @@
             android:contentDescription="Profile"
             android:src="@drawable/ic_person"
             android:visibility="gone"
-            app:backgroundTint="@color/greenPrimary"
+            app:backgroundTint="#00695C"
             app:fabSize="mini"
             app:rippleColor="@color/greenPrimaryDark"
             app:tint="@color/white" />
@@ -157,7 +147,7 @@
             android:contentDescription="Map"
             android:src="@drawable/ic_map"
             android:visibility="gone"
-            app:backgroundTint="@color/greenPrimary"
+            app:backgroundTint="#00695C"
             app:fabSize="mini"
             app:rippleColor="@color/greenPrimaryDark"
             app:tint="@color/white" />
@@ -170,7 +160,7 @@
             android:contentDescription="Logout"
             android:src="@drawable/ic_logout"
             android:visibility="gone"
-            app:backgroundTint="@color/greenPrimary"
+            app:backgroundTint="#00695C"
             app:fabSize="mini"
             app:rippleColor="@color/greenPrimaryDark"
             app:tint="@color/white" />
@@ -179,13 +169,14 @@
             android:id="@+id/fabMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="34dp"
+            android:layout_marginBottom="30dp"
             android:contentDescription="Menu"
+            app:backgroundTint="#00695C"
+            app:tint="@color/white"
             android:src="@drawable/ic_dashboard"
-            app:backgroundTint="@color/greenPrimaryDark"
             app:elevation="10dp"
             app:rippleColor="@color/greenLight"
-            app:tint="@color/white" />
+       />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

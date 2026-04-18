@@ -11,6 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,8 +36,23 @@ class FriendList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding = ActivityFriendListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val density = resources.displayMetrics.density
+            val padding16dp = (16 * density).toInt()
+
+            v.setPadding(
+                padding16dp,
+                systemBars.top + padding16dp,
+                padding16dp,
+                systemBars.bottom + padding16dp
+            )
+            insets
+        }
 
         val adapter = FriendAdapter { selectedUser ->
             startActivity(Intent(this, MapsActivity::class.java).apply {

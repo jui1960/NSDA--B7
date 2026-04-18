@@ -1,19 +1,16 @@
 package com.example.firestore.View
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.firestore.Model.UserRepository
-import com.example.firestore.R
 import com.example.firestore.ViewModel.FriendViewModel
 import com.example.firestore.databinding.ActivityMyProfileBinding
-import com.google.firebase.firestore.auth.User
 
 class MyProfileActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMyProfileBinding
@@ -60,8 +57,19 @@ class MyProfileActivity : AppCompatActivity() {
                 binding.edtUsername.error = "Name cannot be empty"
             }
         }
+
+        binding.btnMap.setOnClickListener {
+            if (uid != null) {
+                val intent = Intent(this, MapsActivity::class.java)
+                intent.putExtra("uid", uid)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "User ID not found", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
-}
+    }
+
 
 
 

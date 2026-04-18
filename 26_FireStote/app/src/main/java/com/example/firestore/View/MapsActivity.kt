@@ -3,12 +3,17 @@ package com.example.firestore.View
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.firestore.Model.UserRepository
 import com.example.firestore.R
+import com.example.firestore.ViewModel.FriendViewModel
 import com.example.firestore.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -19,6 +24,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMapsBinding
     private lateinit var map: GoogleMap
 
+    private val viewModel by viewModels<FriendViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return FriendViewModel(repo) as T
+            }
+        }
+    }
     private val repo = UserRepository()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +45,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        setupObservers()
 
 
     }
@@ -47,6 +60,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             loadSingleUser(userId)
         }
 
+    }
+    private fun setupObservers() {
+        viewModel.userLocation.observe(this) { location ->
+            val pos = LatLng(location.first, location.second)
+            map.clear()
+            map.addMarker(
+                MarkerOptions()
+                    .position(pos)
+                    .title("Location Found")
+            )
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15f))
+        }
     }
 
 

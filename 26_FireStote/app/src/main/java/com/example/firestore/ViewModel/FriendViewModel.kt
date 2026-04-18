@@ -25,4 +25,15 @@ class FriendViewModel(private val repo: UserRepository) :
         }
     }
 
+
+
+    val userLocation = MutableLiveData<Pair<Double, Double>>()
+
+    fun fetchUserLocation(uid: String) {
+        repo.getUserLocation(uid) { lat, lng ->
+            if (lat != null && lng != null) {
+                userLocation.value = Pair(lat, lng)
+            }
+        }
+    }
 }
