@@ -45,4 +45,17 @@ class UserRepository {
     }
 
 
+    fun getAllUser(onComplete: (List<AppUser>) -> Unit) {
+        db.collection("users").get()
+            .addOnSuccessListener { snapshots ->
+                val list = snapshots.documents.mapNotNull { doc ->
+                    doc.toObject(AppUser::class.java)
+
+                }
+                onComplete(list)
+            }
+            .addOnFailureListener {
+                onComplete(emptyList())
+            }
+    }
 }
