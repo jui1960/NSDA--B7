@@ -15,7 +15,12 @@ class UserRepository {
                 val userId = task.user?.uid ?: return@addOnSuccessListener
                 val userName = email.substringBefore("@")
 
-                val user = AppUser(userId, email, userName)
+                val user = AppUser(
+                    userid = userId,
+                    username = userName,
+                    email = email,
+
+                    )
                 db.collection("users")
                     .document(userId).set(user)
                     .addOnSuccessListener {
@@ -45,6 +50,7 @@ class UserRepository {
     }
 
 
+    // recycler view te jara account khulbe tader list dekhanor jnne
     fun getAllUser(onComplete: (List<AppUser>) -> Unit) {
         db.collection("users").get()
             .addOnSuccessListener { snapshots ->
@@ -58,4 +64,28 @@ class UserRepository {
                 onComplete(emptyList())
             }
     }
+
+    fun getCurrentUserId(): String? = auth.currentUser?.uid
+    fun getCurrentUserEmail(): String? = auth.currentUser?.email
+
+    //friendlist ar top a nijer profile dekhanor jnne
+    fun getUserById(userId: String, callback: (AppUser?) -> Unit) {
+        db.collection("users").document(userId).get()
+            .addOnSuccessListener {
+                val user = it.toObject(AppUser::class.java)
+                callback(user)
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
+
+
+    fun updateUserName(uid: String, newName: String, callback: (Boolean) -> Unit) {
+        db.collection("users").document(uid)
+            .update("username", newName)
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
+    }
+
 }

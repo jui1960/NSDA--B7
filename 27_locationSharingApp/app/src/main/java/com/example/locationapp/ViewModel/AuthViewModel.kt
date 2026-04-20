@@ -11,12 +11,6 @@ class AuthViewModel (private val repo : UserRepository): ViewModel() {
     val registrationResult = MutableLiveData<Pair<Boolean, String?>>()
 
 
-    fun register(email: String,password: String){
-        repo.registerUser(email,password){
-            success,message ->
-            registrationResult.postValue(success to message)
-        }
-    }
 
     fun login(email : String,password: String){
         repo.loginUser(email,password){
@@ -25,6 +19,13 @@ class AuthViewModel (private val repo : UserRepository): ViewModel() {
         }
 
     }
+    fun register(email: String,password: String){
+        repo.registerUser(email,password){
+                success,message ->
+            registrationResult.postValue(success to message)
+        }
+    }
+
 
 
 }

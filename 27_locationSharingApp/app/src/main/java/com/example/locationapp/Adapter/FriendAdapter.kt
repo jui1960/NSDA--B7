@@ -43,8 +43,8 @@ class FriendAdapter(private val onItemClick: (AppUser) -> Unit) :
         val user = getItem(position)
         holder.binding.tvUsername.text = user.username
         holder.binding.tvEmail.text = user.email
-        holder.binding.tvLat.text = "Latitude: ${user.latitude ?: "N/A"}"
-        holder.binding.tvLng.text = "Longitude: ${user.longitude ?: "N/A"}"
+        holder.binding.tvLat.text= "Latitude: ${user.latitude ?: "N/A"}"
+        holder.binding.tvLng.text= "Longitude: ${user.longitude ?: "N/A"}"
         holder.itemView.setOnClickListener {
             onItemClick(user)
         }

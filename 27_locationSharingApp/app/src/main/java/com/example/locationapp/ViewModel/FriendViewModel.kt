@@ -14,4 +14,11 @@ class FriendViewModel(private val repo: UserRepository) : ViewModel() {
             _userList.postValue(it)
         }
     }
+    fun updateProfileName(uid: String, newName: String, onResult: (Boolean) -> Unit) {
+        repo.updateUserName(uid, newName) {
+            onResult(it)
+        }
+
+
+    }
 }
