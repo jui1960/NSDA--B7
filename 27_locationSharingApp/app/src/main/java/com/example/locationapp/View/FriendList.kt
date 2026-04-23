@@ -1,13 +1,16 @@
 package com.example.locationapp.View
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModel
@@ -52,7 +55,9 @@ class FriendList : AppCompatActivity() {
             insets
         }
         val adapter = FriendAdapter { selectedUser ->
-            Toast.makeText(this, "Clicked : ${selectedUser.username}", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MapsActivity::class.java).apply {
+                putExtra("uid", selectedUser.userid)
+            })
 
         }
         binding.userRecycler.layoutManager = LinearLayoutManager(this)
@@ -67,9 +72,10 @@ class FriendList : AppCompatActivity() {
         }
 
         loadCurrentUser()
+        chekLocationPermission()
 
 
-
+        //fab manu st
         binding.layoutMyProfile.setOnClickListener {
             val uid = repo.getCurrentUserId() ?: return@setOnClickListener
             startActivity(Intent(this, MyProfileActivity::class.java).apply {
@@ -85,7 +91,7 @@ class FriendList : AppCompatActivity() {
             val email = repo.getCurrentUserEmail() ?: ""
 
 
-            startActivity(Intent(this, MapsActivity::class.java).apply {
+            startActivity(Intent(this, MyProfileActivity::class.java).apply {
                 putExtra("uid", uid)
                 putExtra("email", email)
             })
@@ -98,9 +104,18 @@ class FriendList : AppCompatActivity() {
             closeMenu()
 
         }
+        binding.fabLogout.setOnClickListener {
+            viewModel.logout()
+            startActivity(Intent(this, AuthActivity::class.java))
+            finish()
+            closeMenu()
+
+        }
+        //fab menu end
 
 
     }
+
 
     private fun openMenu() {
         binding.fabProfile.visibility = View.VISIBLE
@@ -143,4 +158,62 @@ class FriendList : AppCompatActivity() {
 
 
     }
+
+
+    //location
+    private fun hasLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            this, Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun chekLocationPermission() {
+        if (!hasLocationPermission()) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                100
+            )
+
+        } else {
+            UpdateLocationAutomatically()
+
+
+        }
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 100 && grantResults.isNotEmpty()
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            UpdateLocationAutomatically()
+
+        }
+
+    }
+
+    private fun UpdateLocationAutomatically() {
+        repo.updateLocationAuto(this) { success ->
+            if (success) {
+                loadCurrentUser()
+
+            } else {
+                Toast.makeText(
+                    this, "Location update failed",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+
+
+
 }

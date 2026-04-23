@@ -21,4 +21,22 @@ class FriendViewModel(private val repo: UserRepository) : ViewModel() {
 
 
     }
+
+    val userLocation = MutableLiveData<Pair<Double, Double>>()
+
+    fun logout() {
+        repo.logOut()
+
+    }
+
+    fun fetchUserLocation(uid: String) {
+        repo.getUserLocation(uid) { lat, lng ->
+            if (lat != null && lng != null) {
+                userLocation.postValue(Pair(lat, lng))
+            }
+
+        }
+
+    }
+
 }

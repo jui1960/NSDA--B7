@@ -1,6 +1,13 @@
 package com.example.locationapp.Repository
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
 import com.example.locationapp.Model.AppUser
+import com.google.android.gms.location.LocationServices
+
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -88,4 +95,65 @@ class UserRepository {
             .addOnFailureListener { callback(false) }
     }
 
+    fun logOut() {
+        auth.signOut()
+    }
+
+    //location
+    fun updateLocation(userId: String, lat: Double, lng: Double, onComplete: (Boolean) -> Unit) {
+
+        db.collection("users").document(userId)
+
+            .update(
+                mapOf(
+                    "latitude" to lat,
+                    "longitude" to lng
+                )
+            ).addOnSuccessListener {
+                onComplete.invoke(true)
+            }
+            .addOnFailureListener {
+                onComplete.invoke(false)
+            }
+
+    }
+
+    fun updateLocationAuto(context: Context, onComplete: (Boolean) -> Unit) {
+        val fused = LocationServices.getFusedLocationProviderClient(context)
+
+        val userId = getCurrentUserId() ?: return
+
+        if (ActivityCompat.checkSelfPermission(
+                context, Manifest.permission.ACCESS_FINE_LOCATION
+
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            onComplete(false)
+            return
+        }
+        fused.lastLocation.addOnSuccessListener { loc ->
+            if (loc != null) {
+                updateLocation(userId, loc.latitude, loc.longitude) { success ->
+                    onComplete(success)
+                }
+            } else {
+                onComplete(false)
+            }
+
+        }
+
+
+    }
+
+
+    fun getUserLocation(uid: String, callback: (Double?, Double?) -> Unit) {
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { doc ->
+                val lat = doc.getDouble("latitude")
+                val lng = doc.getDouble("longitude")
+
+                callback(lat, lng)
+
+            }
+    }
 }
