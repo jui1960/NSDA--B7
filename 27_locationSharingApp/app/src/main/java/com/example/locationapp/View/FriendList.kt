@@ -206,7 +206,7 @@ class FriendList : AppCompatActivity() {
 
             } else {
                 Toast.makeText(
-                    this, "Location update failed",
+                    this, "Location Update Failed",
                     Toast.LENGTH_SHORT
                 ).show()
             }
