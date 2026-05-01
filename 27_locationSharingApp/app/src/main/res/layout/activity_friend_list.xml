@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:contentDescription="Map"
-            android:src="@drawable/ic_map"
+            android:src="@drawable/img"
             android:visibility="gone"
             app:backgroundTint="#00695C"
             app:fabSize="mini"

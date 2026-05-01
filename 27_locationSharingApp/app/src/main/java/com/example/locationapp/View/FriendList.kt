@@ -21,6 +21,7 @@ import com.example.locationapp.Repository.UserRepository
 import com.example.locationapp.ViewModel.FriendViewModel
 import com.example.locationapp.databinding.ActivityFriendListBinding
 
+
 class FriendList : AppCompatActivity() {
     private lateinit var binding: ActivityFriendListBinding
     private val repo = UserRepository()

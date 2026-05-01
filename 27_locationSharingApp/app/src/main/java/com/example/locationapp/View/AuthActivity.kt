@@ -12,6 +12,7 @@ import com.example.locationapp.Repository.UserRepository
 import com.example.locationapp.ViewModel.AuthViewModel
 import com.example.locationapp.databinding.ActivityAuthBinding
 
+
 class AuthActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAuthBinding
     private val repo = UserRepository()

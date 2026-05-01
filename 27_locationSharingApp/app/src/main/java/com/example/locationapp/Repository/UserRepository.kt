@@ -1,13 +1,12 @@
 package com.example.locationapp.Repository
 
+
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import com.example.locationapp.Model.AppUser
 import com.google.android.gms.location.LocationServices
-
-
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
