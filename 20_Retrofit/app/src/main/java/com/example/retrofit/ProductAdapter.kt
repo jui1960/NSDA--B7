@@ -27,19 +27,14 @@ class ProductAdapter(
 
         holder.binding.productTitle.text = product.title
         holder.binding.productPrice.text = "$${product.price}"
-        holder.binding.productDescription.text = product.description
 
         holder.binding.root.setOnClickListener {
             onItem(product)
         }
 
 
-
-        val imageUrl = product.images.getOrNull(0) ?: ""
         Glide.with(holder.itemView.context)
-            .load(product.images[0])
-            .placeholder(android.R.drawable.progress_indeterminate_horizontal)
-            .error(android.R.drawable.stat_notify_error)
+            .load(product.image)
             .into(holder.binding.productImage)
 
 

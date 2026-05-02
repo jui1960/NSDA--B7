@@ -7,7 +7,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.retrofit.databinding.ActivityDetailsScreenBinding
-import com.example.retrofit.databinding.ActivityMainBinding
 
 class DetailsScreen : AppCompatActivity() {
     private lateinit var binding: ActivityDetailsScreenBinding
@@ -35,6 +34,9 @@ class DetailsScreen : AppCompatActivity() {
             detailProductDescription.text = dec
             detailProductCategory.text = category
 
+            back.setOnClickListener {
+                finish()
+            }
 
         }
         Glide.with(this)

@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.retrofit.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         loadData()
 
         binding.fab.setOnClickListener {
+            Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show()
             loadData()
         }
     }
@@ -52,10 +51,8 @@ class MainActivity : AppCompatActivity() {
                         intent.putExtra("title", product.title)
                         intent.putExtra("description", product.description)
                         intent.putExtra("price", product.price) // Double
-                       val imageUrl = if (product.images.isNotEmpty()) {
-                            product.images[0]
-                        } else ""
-                        intent.putExtra("image", imageUrl)
+
+                        intent.putExtra("image", product.image)
                         startActivity(intent)
                     }
                 }
