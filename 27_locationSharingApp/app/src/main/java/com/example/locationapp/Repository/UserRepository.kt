@@ -1,6 +1,7 @@
 package com.example.locationapp.Repository
 
 
+
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
@@ -144,15 +145,4 @@ class UserRepository {
 
     }
 
-
-    fun getUserLocation(uid: String, callback: (Double?, Double?) -> Unit) {
-        db.collection("users").document(uid).get()
-            .addOnSuccessListener { doc ->
-                val lat = doc.getDouble("latitude")
-                val lng = doc.getDouble("longitude")
-
-                callback(lat, lng)
-
-            }
-    }
 }

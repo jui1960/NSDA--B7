@@ -1,5 +1,6 @@
 package com.example.locationapp.Adapter
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locationapp.Model.AppUser
 import com.example.locationapp.databinding.ItemUserBinding
+
 
 class FriendAdapter(private val onItemClick: (AppUser) -> Unit) :
     ListAdapter<AppUser, FriendAdapter.UserViewModel>(DIFF_CALLBACK) {
@@ -43,8 +45,8 @@ class FriendAdapter(private val onItemClick: (AppUser) -> Unit) :
         val user = getItem(position)
         holder.binding.tvUsername.text = user.username
         holder.binding.tvEmail.text = user.email
-        holder.binding.tvLat.text= "Latitude: ${user.latitude ?: "N/A"}"
-        holder.binding.tvLng.text= "Longitude: ${user.longitude ?: "N/A"}"
+        holder.binding.tvLat.text = user.latitude?.toString() ?: "0.0"
+        holder.binding.tvLng.text = user.longitude?.toString() ?: "0.0"
         holder.itemView.setOnClickListener {
             onItemClick(user)
         }

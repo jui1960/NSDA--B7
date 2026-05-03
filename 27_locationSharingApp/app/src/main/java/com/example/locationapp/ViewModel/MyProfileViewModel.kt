@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.locationapp.Model.AppUser
 import com.example.locationapp.Repository.UserRepository
 
+
 class MyProfileViewModel(private val repo: UserRepository) : ViewModel() {
 
     private val _userData = MutableLiveData<AppUser?>()

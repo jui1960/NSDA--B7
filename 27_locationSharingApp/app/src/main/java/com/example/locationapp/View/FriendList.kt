@@ -1,5 +1,6 @@
 package com.example.locationapp.View
 
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.locationapp.Adapter.FriendAdapter
+
 import com.example.locationapp.Repository.UserRepository
 import com.example.locationapp.ViewModel.FriendViewModel
 import com.example.locationapp.databinding.ActivityFriendListBinding
@@ -79,9 +81,12 @@ class FriendList : AppCompatActivity() {
         //fab manu st
         binding.layoutMyProfile.setOnClickListener {
             val uid = repo.getCurrentUserId() ?: return@setOnClickListener
-            startActivity(Intent(this, MyProfileActivity::class.java).apply {
+
+            val intent = Intent(this, MapsActivity::class.java).apply {
                 putExtra("uid", uid)
-            })
+                putExtra("showAll", false)
+            }
+            startActivity(intent)
         }
         binding.fabMain.setOnClickListener {
             if (isMenuOpen) closeMenu() else openMenu()
@@ -150,14 +155,12 @@ class FriendList : AppCompatActivity() {
             user?.let {
                 binding.tvMyProfileName.text = it.username
                 binding.tvMyProfileEmail.text = it.email
-                binding.tvMyProfileLat.text = "Lat: ${it.latitude ?: 0.0}"
-                binding.tvMyProfileLng.text = "Lng: ${it.longitude ?: 0.0}"
+
+
             } ?: run {
                 binding.tvMyProfileName.text = "User not found"
             }
         }
-
-
     }
 
 
@@ -213,8 +216,6 @@ class FriendList : AppCompatActivity() {
             }
         }
     }
-
-
 
 
 }

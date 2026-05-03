@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+
 import com.example.locationapp.Repository.UserRepository
 import com.example.locationapp.ViewModel.AuthViewModel
 import com.example.locationapp.databinding.ActivityAuthBinding

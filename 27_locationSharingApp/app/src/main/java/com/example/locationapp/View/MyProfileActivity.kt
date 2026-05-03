@@ -14,6 +14,7 @@ import com.example.locationapp.Repository.UserRepository
 import com.example.locationapp.ViewModel.MyProfileViewModel
 import com.example.locationapp.databinding.ActivityMyProfileBinding
 
+
 class MyProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyProfileBinding
     private val repo = UserRepository()
@@ -42,6 +43,10 @@ class MyProfileActivity : AppCompatActivity() {
         val email = intent.getStringExtra("email")
 
         binding.email.text = email
+        binding.back.setOnClickListener {
+            finish()
+        }
+
 
         viewModel.userData.observe(this) { user ->
             user?.let {
@@ -52,6 +57,7 @@ class MyProfileActivity : AppCompatActivity() {
         uid?.let { id ->
             viewModel.fetchUserProfile(id)
         }
+
 
         binding.btnUpdateUsername.setOnClickListener {
             val newName = binding.edtUsername.text.trim().toString()
